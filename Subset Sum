@@ -1,0 +1,19 @@
+#include<vector>
+void combine(int ind,vector<int>&num,int size,vector<int>&ans,int sum){
+	if(ind==size){
+		ans.push_back(sum);
+		return;
+	}
+
+	// pick
+	combine(ind+1,num,size,ans,sum+num[ind]);
+
+	// not pick
+	combine(ind+1,num,size,ans,sum);
+}
+vector<int> subsetSum(vector<int> &num){
+	vector<int> ans;
+	combine(0,num,num.size(),ans,0);
+	sort(ans.begin(),ans.end());
+	return ans;
+}
