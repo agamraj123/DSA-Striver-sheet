@@ -1,0 +1,107 @@
+#include<bits/stdc++.h>
+using namespace std;
+class TreeNode{
+    public:
+    int data;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(int d){
+        this->data = d;
+        left = right = NULL;
+    }
+};
+void InsertNode(TreeNode* &root,int data){
+    TreeNode* curr = new TreeNode(data);
+    if(root==NULL){
+        root = curr;
+        return;
+    }
+    queue<TreeNode*> qe;
+    qe.push(root);
+    while(!qe.empty()){
+        TreeNode* top = qe.front();
+        qe.pop();
+
+        if(top->left){
+            qe.push(top->left);
+        }
+        else{
+            top->left = curr;
+            return;
+        }
+        if(top->right){
+            qe.push(top->right);
+        }
+        else{
+            top->right = curr;
+            return;
+        }
+    }
+}
+// void inorder(TreeNode* root){
+//     if(root==NULL) return;
+//     inorder(root->left);
+//     cout<<root->data<<" ";
+//     inorder(root->right);
+// }
+void InPrePost(TreeNode* root,vector<int>&pre,vector<int>&post,vector<int>&in){
+    stack<pair<TreeNode*,int>> st;
+    st.push({root,1});
+
+    while(!st.empty()){
+        pair<TreeNode*,int> curr = st.top();
+        st.pop();
+
+        if(curr.second==1){
+            in.push_back(curr.first->data);
+            curr.second++;
+            st.push(curr);
+            if(curr.first->left){
+                st.push({curr.first->left,1});
+            }
+        }
+
+        else if(curr.second==2){
+            pre.push_back(curr.first->data);
+            curr.second++;
+            st.push(curr);
+            if(curr.first->right){
+                st.push({curr.first->right,1});
+            }
+        }
+
+        else{
+            post.push_back(curr.first->data);
+        }
+    }
+}
+int main(){
+    TreeNode* root = NULL;
+    InsertNode(root,1);
+    InsertNode(root,3);
+    InsertNode(root,5);
+    InsertNode(root,9);
+    InsertNode(root,11);
+    InsertNode(root,13);
+    InsertNode(root,15);
+    InsertNode(root,17);
+    InsertNode(root,19);
+    InsertNode(root,21);
+
+    vector<int> in;
+    vector<int> pre;
+    vector<int> post;
+    InPrePost(root,in,pre,post);
+    for(int i: in){
+        cout<<i<<" ";
+    }cout<<endl;
+    for(int i: pre){
+        cout<<i<<" ";
+    }cout<<endl;
+    for(int i: post){
+        cout<<i<<" ";
+    }cout<<endl;
+
+    return 0;
+}
