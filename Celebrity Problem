@@ -1,0 +1,58 @@
+#Approach 1
+class Solution {
+  public:
+    int celebrity(vector<vector<int>>& mat) {
+        // code here
+        int n = mat.size();
+        int m = mat[0].size();
+        vector<int> iknow(n,0);
+        vector<int> knowme(n,0);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]==1){
+                    iknow[i]++;
+                    knowme[j]++;
+                }
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            if(iknow[i]<=1 && knowme[i]==n){
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+#Approach 2
+class Solution {
+  public:
+    int celebrity(vector<vector<int>>& mat) {
+        // code here
+        int n = mat.size();
+        int m = mat[0].size();
+        int top = 0;
+        int down = n-1;
+        while(top<down){
+            if(mat[top][down]==1){
+                top = top+1;
+            }
+            else{
+                down--;
+            }
+        }
+        
+        if(top>down){
+            return -1;
+        }
+        
+        // top == down
+        for(int i=0;i<n;i++){
+            if(i==top) continue;
+            if(mat[top][i]==1 || mat[i][top]==0){
+                return -1;
+            }
+        }
+        return top;
+    }
+};
