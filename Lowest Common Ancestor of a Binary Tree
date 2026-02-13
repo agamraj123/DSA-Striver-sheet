@@ -1,0 +1,16 @@
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        // base case
+        if(root==NULL || root==p || root==q){
+            return root;
+        }
+
+        TreeNode* lefty = lowestCommonAncestor(root->left,p,q);
+        TreeNode* righty = lowestCommonAncestor(root->right,p,q);
+
+        if(lefty==NULL) return righty;
+        else if(righty==NULL) return lefty;
+        else return root;
+    }
+};
