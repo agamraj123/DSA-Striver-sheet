@@ -1,0 +1,55 @@
+#Approach 1
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        if(!root) return {};
+        vector<vector<int>> ans;
+        queue<TreeNode*> qe;
+        qe.push(root);
+        while(!qe.empty()){
+            int size = qe.size();
+            vector<int> temp;
+            for(int i=0;i<size;i++){
+                TreeNode* curr = qe.front();
+                qe.pop();
+                temp.push_back(curr->val);
+                temp.push_back(curr->val);
+                if(curr->left){
+                    qe.push(curr->left);
+                }
+                if(curr->right){
+                    qe.push(curr->right);
+                }
+            }
+            ans.push_back(temp);
+        }
+        vector<int> res;
+        for(int i=0;i<ans.size();i++){
+            res.push_back(ans[i][ans[i].size()-1]);
+        }
+        return res;
+    }
+};
+
+Approach #2
+class Solution {
+public:
+void Rightside(TreeNode* root,int lvl,vector<int>&res){
+    if(root==NULL){
+        return;
+    }
+
+    if(res.size()==lvl){
+        res.push_back(root->val);
+    }
+
+    Rightside(root->right,lvl+1,res);
+    Rightside(root->left,lvl+1,res);
+}
+    vector<int> rightSideView(TreeNode* root) {
+        if(!root) return {};
+        vector<int> res;
+        Rightside(root,0,res);
+        return res;
+    }
+};
