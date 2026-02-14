@@ -1,0 +1,26 @@
+class Solution {
+public:
+   TreeNode* build(vector<int>&preorder,int prest,int prend,vector<int>&inorder,int inst,int inend,map<int,int> &mpp){
+    if(inst>inend || prest>prend) return NULL;
+    TreeNode* root = new TreeNode(preorder[prest]);
+
+    int leftind = mpp[root->val];
+    int leftsize = leftind-inst;
+
+    root->left = build(preorder,prest+1,prest+leftsize,inorder,inst,leftind-1,mpp);
+    root->right = build(preorder,prest+leftsize+1,prend,inorder,leftind+1,inend,mpp);
+
+    return root;
+   }
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        map<int,int>mpp;
+        for(int i=0;i<inorder.size();i++){
+            mpp[inorder[i]] = i;
+        }
+
+        TreeNode* root = build(preorder,0,preorder.size()-1,inorder,0,
+        inorder.size()-1,mpp);
+        return root;
+    }
+};
