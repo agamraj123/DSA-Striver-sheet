@@ -1,0 +1,47 @@
+class Solution {
+  public:
+  bool bfs(int node,vector<vector<int>>&adj,vector<int>&vis){
+      vis[node] = 1;
+      // store {node,parent}
+      queue<pair<int,int>> qe;
+      qe.push({node,-1});
+      while(!qe.empty()){
+          int src = qe.front().first;
+          int parent = qe.front().second;
+          
+          qe.pop();
+          
+          for(auto neigh: adj[src]){
+              if(!vis[neigh]){
+                  vis[neigh] = 1;
+                  qe.push({neigh,src});
+              }
+              else{
+                  if(neigh != parent){
+                      return true;
+                  }
+              }
+          }
+      }
+      return false;
+ }
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        vector<vector<int>> adj(V);
+        for(auto &p: edges){
+            adj[p[0]].push_back(p[1]);
+            adj[p[1]].push_back(p[0]);
+        }
+        
+        vector<int> vis(V,0);
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                if(bfs(i,adj,vis)){
+                    return true;
+                }
+            }
+        }
+        return false;
+        
+    }
+};
