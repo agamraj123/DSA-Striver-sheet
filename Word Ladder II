@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> word(wordList.begin(),wordList.end());
+        queue<vector<string>> qe;
+        qe.push({beginWord});
+
+        vector<string> usedOnLevel;
+        usedOnLevel.push_back(beginWord);
+
+        int level = 0;
+        vector<vector<string>> ans;
+        while(!qe.empty()){
+            vector<string> vec = qe.front();
+            qe.pop();
+
+            if(vec.size()>level){
+                level++;
+                for(auto it: usedOnLevel){
+                    word.erase(it);
+                }
+            }
+
+            string str = vec.back();
+            if(str==endWord){
+                if(ans.size()==0){
+                    ans.push_back(vec);
+                }
+                else if(ans[0].size()==vec.size()){
+                    ans.push_back(vec);
+                }
+            }
+
+            for(int i=0;i<str.size();i++){
+                char original = str[i];
+                for(char ch='a';ch<='z';ch++){
+                    str[i] = ch;
+                    if(word.count(str)>0){
+                        vec.push_back(str);
+                        qe.push(vec);
+
+                        // mark visited
+                        usedOnLevel.push_back(str);
+                        vec.pop_back();
+                    }
+                }
+                str[i] = original;
+            }
+        }
+        return ans;
+    }
+};
