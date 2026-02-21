@@ -1,0 +1,41 @@
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(numCourses);
+        vector<int> indegree(numCourses,0);
+
+        for(auto it: prerequisites){
+            adj[it[0]].push_back(it[1]);
+        }
+
+        for(int i=0;i<numCourses;i++){
+            for(auto neigh: adj[i]){
+                indegree[neigh]++;
+            }
+        }
+
+        queue<int> qe;
+        for(int i=0;i<numCourses;i++){
+            if(indegree[i]==0){
+                qe.push(i);
+            }
+        }
+        vector<int> topo;
+
+        while(!qe.empty()){
+            int node = qe.front();
+            qe.pop();
+
+            topo.push_back(node);
+
+            for(auto neigh: adj[node]){
+                indegree[neigh]--;
+                if(indegree[neigh]==0){
+                    qe.push(neigh);
+                }
+            }
+        }
+        if(topo.size()==numCourses) return true;
+        return false;
+    }
+};
