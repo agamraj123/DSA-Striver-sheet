@@ -1,0 +1,41 @@
+class Solution {
+  public:
+    vector<vector<int>> getComponents(int V, vector<vector<int>>& edges) {
+        // code here
+        vector<vector<int>> adj(V);
+        for(auto it: edges){
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        
+        vector<vector<int>> components;
+        vector<int> vis(V,0);
+        for(int i=0;i<V;i++){
+            vector<int> ans;
+            if(!vis[i]){
+                ans.push_back(i);
+            }
+            
+            queue<int> qe;
+            qe.push(i);
+            vis[i] = 1;
+            
+            while(!qe.empty()){
+                int node = qe.front();
+                qe.pop();
+                
+                for(auto neigh: adj[node]){
+                    if(!vis[neigh]){
+                        vis[neigh] = 1;
+                        ans.push_back(neigh);
+                        qe.push(neigh);
+                    }
+                }
+            }
+            if(ans.size()>0){
+            components.push_back(ans);
+            }
+        }
+        return components;
+    }
+};
