@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int left = 0;
+        int right = 0;
+        int pick = 0;
+        int maxpick = 0;
+
+        int leftbasket = -1, rightbasket = -1;
+        int leftcnt = 0, rightcnt = 0;
+        while(right<fruits.size()){
+            if(fruits[right]==leftbasket || leftbasket == -1 ){
+                leftbasket = fruits[right];
+                leftcnt++;
+                right++;
+            }
+            else if(fruits[right]==rightbasket || rightbasket == -1){
+                rightbasket = fruits[right];
+                rightcnt++;
+                right++;
+            }
+            else{
+                if(fruits[left]==leftbasket){
+                    leftcnt--;
+                    if(leftcnt<=0){
+                        leftbasket = -1;
+                    }
+                }
+                else if(fruits[left]==rightbasket){
+                    rightcnt--;
+                    if(rightcnt<=0){
+                        rightbasket = -1;
+                    }
+                }
+                left++;
+            }
+            pick = right-left;
+            maxpick = max(pick,maxpick);
+        }
+        return maxpick;
+    }
+};
