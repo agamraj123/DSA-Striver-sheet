@@ -1,0 +1,28 @@
+class Solution {
+public:
+int moneyget(int st,int ed,vector<int> nums){
+    int prev1 = nums[st];
+    int prev2 = 0;
+
+    int curr;
+    for(int i=st+1;i<=ed;i++){
+        int take = nums[i] + prev2;
+        int nottake = 0 + prev1;
+
+        curr = max(take,nottake);
+
+        prev2 = prev1;
+        prev1 = curr;
+    }
+    return prev1;
+}
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+
+        if(n==1) return nums[0];
+        int ans1 = moneyget(0,n-2,nums);
+        int ans2 = moneyget(1,n-1,nums);
+
+        return max(ans1,ans2);
+    }
+};
