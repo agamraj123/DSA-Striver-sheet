@@ -1,0 +1,28 @@
+class Solution {
+public:
+int solve(vector<int>&nums,int k){
+    int left = 0;
+    int right = 0;
+
+    int subarrays = 0;
+    while(right<nums.size()){
+        if(nums[right]%2==1){
+            k--;
+        }
+
+        while(k<0 && left<nums.size()){
+            if(nums[left]%2==1){
+                k++;
+            }
+            left++;
+        }
+
+        subarrays += (right-left+1);
+        right++;
+    }
+    return subarrays;
+}
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        return solve(nums,k)-solve(nums,k-1);
+    }
+};
