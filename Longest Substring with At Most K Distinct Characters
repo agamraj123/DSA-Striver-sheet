@@ -1,0 +1,26 @@
+#include<unordered_map>
+int kDistinctChars(int k, string &str)
+{
+    vector<int> vis(26,0);
+
+    int left = 0;
+    int right = 0;
+    int maxlen = 0;
+    while(right<str.length()){
+        if(vis[str[right]-'a']==0){
+        k--;
+        }
+        vis[str[right]-'a']++;
+
+        while(k<0 && left<str.length()){
+           vis[str[left]-'a']--;
+           if(vis[str[left]-'a']==0){
+               k++;
+           }
+           left++;
+        }
+        maxlen = max(maxlen,right-left+1);
+        right++;
+    }
+    return maxlen;
+}
