@@ -1,0 +1,41 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if(t.length()>s.length()) return "";
+        // if(s.length()==t.length()){
+        //     if(s[0]==t[0]){
+        //         string str(1,s[0]);
+        //         return str;
+        //     }
+        //     return "";
+        // }
+        vector<int> vis(256,0);
+        for(int i=0;i<t.length();i++){
+            vis[t[i]]++;
+        }
+
+        int left = 0;
+        int minlen = INT_MAX;
+        int start = 0;
+        int check = 0;
+        string ans = "";
+        for(int right=0;right<s.length();right++){
+            if(vis[s[right]]>0) check++;
+
+            vis[s[right]]--;
+            while(check==t.length()){
+                int len = right-left+1;
+                if(len<minlen){
+                    minlen = len;
+                    start = left;
+                }
+
+                vis[s[left]]++;
+                if(vis[s[left]]>0) check--;
+                left++;
+            }
+        }
+        if(minlen==INT_MAX) return "";
+        return s.substr(start,minlen);
+    }
+};
