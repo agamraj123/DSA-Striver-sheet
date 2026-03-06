@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+
+        vector<pair<int,int>> adj[n];
+
+        for(auto it: roads){
+            adj[it[0]].push_back({it[1], it[2]});
+            adj[it[1]].push_back({it[0], it[2]});
+        }
+
+        priority_queue<pair<long long,int>,
+        vector<pair<long long,int>>,
+        greater<pair<long long,int>>> minHeap;
+
+        vector<long long> dis(n, LLONG_MAX);
+        vector<int> path(n,0);
+
+        minHeap.push({0,0});
+        dis[0] = 0;
+        path[0] = 1;
+
+        int mod = 1e9+7;
+
+        while(!minHeap.empty()){
+
+            auto it = minHeap.top();
+            minHeap.pop();
+
+            long long dist = it.first;
+            int node = it.second;
+
+            for(auto neigh : adj[node]){
+
+                int adjNode = neigh.first;
+                int weight = neigh.second;
+
+                if(dist + weight < dis[adjNode]){
+
+                    dis[adjNode] = dist + weight;
+                    minHeap.push({dis[adjNode], adjNode});
+
+                    path[adjNode] = path[node];
+                }
+
+                else if(dist + weight == dis[adjNode]){
+
+                    path[adjNode] =
+                    (path[adjNode] + path[node]) % mod;
+                }
+            }
+        }
+
+        return path[n-1];
+    }
+};
