@@ -1,0 +1,52 @@
+class Solution {
+public:
+int timer = 1;
+
+void dfs(int node,int parent,vector<vector<int>> &adj,
+vector<int> &tim,vector<int> &lowt,
+vector<vector<int>> &bridges,vector<int>&vis){
+
+    vis[node] = 1;
+    tim[node] = lowt[node] = timer++;
+
+    for(auto neigh: adj[node]){
+
+        if(neigh == parent) continue;
+
+        if(vis[neigh] == 0){
+
+            dfs(neigh,node,adj,tim,lowt,bridges,vis);
+
+            lowt[node] = min(lowt[node],lowt[neigh]);
+
+            if(lowt[neigh] > tim[node]){
+                bridges.push_back({node,neigh});
+            }
+        }
+        else{
+            lowt[node] = min(lowt[node],tim[neigh]);
+        }
+    }
+}
+
+vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+
+    vector<vector<int>> adj(n);
+
+    for(auto it: connections){
+        int u = it[0], v = it[1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    vector<int> tim(n);
+    vector<int> vis(n,0);
+    vector<int> lowt(n);
+
+    vector<vector<int>> bridges;
+
+    dfs(0,-1,adj,tim,lowt,bridges,vis);
+
+    return bridges;
+}
+};
