@@ -1,0 +1,33 @@
+class Solution {
+public:
+bool subsetsum(int ind,int target,vector<vector<int>> &dp,vector<int> &nums){
+    if(target==0) return true;
+    if(ind==0){
+        return target==nums[ind];
+    }
+    if(dp[ind][target]!=-1){
+        return dp[ind][target];
+    }
+    bool notTaken = subsetsum(ind-1,target,dp,nums);
+    bool Taken = false;
+    if(nums[ind]<=target){
+    Taken = subsetsum(ind-1,target-nums[ind],dp,nums);
+    }
+
+    return dp[ind][target] = Taken || notTaken;
+}
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size();
+        int totSum = 0;
+        for(int i=0;i<n;i++){
+            totSum += nums[i];
+        }
+        if(totSum%2==1) return false;
+        else{
+            int k = totSum/2;
+            vector<vector<int>>dp(n,vector<int>(k+1,-1));
+
+            return subsetsum(n-1,k,dp,nums);
+        }
+    }
+};
