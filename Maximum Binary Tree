@@ -1,0 +1,24 @@
+class Solution {
+public:
+TreeNode* constructmaximum(vector<int>&nums,int st,int ed){
+    if(st>ed){
+        return NULL;
+    }
+    int ind = -1;
+    int val = -1;
+
+    for(int i=st;i<=ed;i++){
+        if(val<nums[i]){
+            val = nums[i];
+            ind = i;
+        }
+    }
+    TreeNode* root = new TreeNode(val);
+    root->left = constructmaximum(nums,st,ind-1);
+    root->right = constructmaximum(nums,ind+1,ed);
+    return root;
+}
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return constructmaximum(nums,0,nums.size()-1);
+    }
+};
