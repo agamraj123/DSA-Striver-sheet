@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    vector<int> topKFreq(vector<int> &arr, int k) {
+        // Code here
+        unordered_map<int,int> cnt;
+        for(auto it: arr){
+            cnt[it]++;
+        }
+        priority_queue<pair<int,int>,vector<pair<int,int>>,
+        greater<pair<int,int>> >pq;
+        for(auto i: cnt){
+            pq.push({i.second,i.first});
+            if(pq.size()>k){
+                pq.pop();
+            }
+        }
+        vector<int> ans;
+        while(!pq.empty()){
+            int val = pq.top().second;
+            pq.pop();
+            ans.push_back(val);
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
