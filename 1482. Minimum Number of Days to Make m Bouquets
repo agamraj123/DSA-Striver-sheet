@@ -1,0 +1,52 @@
+class Solution {
+public:
+int mini(vector<int>&bloomDay){
+    int k = INT_MAX;
+    for(int i=0;i<bloomDay.size();i++){
+        k = min(k,bloomDay[i]);
+    }
+    return k;
+}
+int maxi(vector<int>&bloomDay){
+    int k = INT_MIN;
+    for(int i=0;i<bloomDay.size();i++){
+        k = max(k,bloomDay[i]);
+    }
+    return k;
+}
+bool check(vector<int>&b,int mid,int m,int k){
+    int cnt = 0;
+    int total = 0;
+    for(int i=0;i<b.size();i++){
+        if(b[i]<=mid){
+            cnt++;
+            if(cnt==k){
+                total++;
+                cnt = 0;
+            }
+        }
+        else{
+            cnt = 0;
+        }
+    }
+    return total>=m;
+}
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int n = bloomDay.size();
+        if((long long)m*k>n) return -1;
+        int low = mini(bloomDay);
+        int high = maxi(bloomDay);
+        int ans = -1;
+        while(low<=high){
+            int mid = low+(high-low)/2;
+            if(check(bloomDay,mid,m,k)){
+                ans = mid;
+                high = mid-1;
+            }
+            else{
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+};
