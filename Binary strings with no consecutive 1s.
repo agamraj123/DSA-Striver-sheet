@@ -1,0 +1,18 @@
+void generate(vector<string>&ans,string curr,int N){
+    if(curr.size()==N){
+        ans.push_back(curr);
+        return;
+    }
+
+    // add 0 normally 
+    generate(ans,curr+"0",N);
+
+    if(curr.empty() || curr.back()!='1'){
+        generate(ans,curr+"1",N);
+    }
+}
+vector<string> generateString(int N) {
+    vector<string> ans;
+    generate(ans,"",N);
+    return ans;
+}
