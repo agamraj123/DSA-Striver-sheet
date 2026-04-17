@@ -1,0 +1,25 @@
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if(s.empty() || t.empty()) return "";
+        unordered_map<char,int> targetMap;
+        for(char ch: t){
+            targetMap[ch]++;
+        }
+        unordered_map<char,int> windowMap;
+        int cnt = 0;
+        int minlen = INT_MAX;
+        int stind = 0;
+        int left = 0,right = 0;
+        while(right<s.length()){
+            char ch = s[right];
+            windowMap[ch]++;
+            if(targetMap.count(ch) && targetMap[ch]==windowMap[ch]) cnt++;
+            while(cnt==targetMap.size()){
+                if(right-left+1<minlen){
+                minlen = right-left+1;
+        }
+        return (minlen==INT_MAX) ? "" : s.substr(stind,minlen);
+    }
+};
