@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        unordered_map<int,vector<pair<int,int>>>mpp;
+        for(auto it: times){
+            int u = it[0],v = it[1], w = it[2];
+            mpp[u].push_back({v,w});
+        }
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>> >pq;
+        pq.push({0,k});
+        vector<int> result(n+1,INT_MAX);
+        result[k] = 0;
+        int dist = 0;
+        while(!pq.empty()){
+            int w = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+            if(w>result[node]) continue;
+            if(dist+w<result[node]){
+                result[node] = dist+w;
+            }
+            for(auto &neigh: mpp[node]){
+                int ni = neigh.first;
+                int d = neigh.second;
+                if(w+d<result[ni]){
+                    result[ni] = w+d;
+                    pq.push({w+d,ni});
+                }
+            }
+        }
+        const int INF = INT_MAX;
+        for(int i=1;i<=n;i++){
+            if(result[i]==INF){
+                return -1;
+            }
+            dist = max(dist,result[i]);
+        }
+        return dist;
+    }
+};
