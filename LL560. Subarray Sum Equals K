@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        int cnt = 0;
+        int sum = 0;
+        int left = 0,right = 0;
+        while(left<=right && right<n){
+            sum += nums[right];
+            while(left<=right&&sum>k){
+                sum -= nums[left++];
+            }
+            if(sum==k) cnt++;
+            right++;
+        }
+        if(sum==k) cnt++;
+        return cnt;
+    }
+};
