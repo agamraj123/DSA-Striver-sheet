@@ -1,0 +1,15 @@
+class NumArray {
+public:
+vector<int> prefsum;
+    NumArray(vector<int>& nums) {
+        prefsum.resize(nums.size()+1);
+        prefsum[0] = 0;
+        for(int i=1;i<=nums.size();i++){
+            prefsum[i] = prefsum[i-1]+nums[i-1];
+        }
+    }
+    
+    int sumRange(int left, int right) {
+        return prefsum[right+1]-prefsum[left];
+    }
+};
