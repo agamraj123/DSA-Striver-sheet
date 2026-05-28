@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>> vis(n,vector<int>(m,0));
+        int freshorange = 0;
+        queue<pair<pair<int,int>,int>>qe; // {{row,col},time}
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==2){
+                qe.push({{i,j},0});
+                }
+                else if(grid[i][j]==1){
+                    freshorange++;
+                }
+            }
+        }
+        int dr[] = {-1,0,1,0};
+        int dc[] = {0,1,0,-1};
+        int minutes = 0;
+        while(!qe.empty()){
+            int row = qe.front().first.first;
+            int col = qe.front().first.second;
+            int time = qe.front().second;
+            qe.pop();
+            minutes = max(minutes,time);
+        for(int i=0;i<4;i++){
+            int nrow = row+dr[i];
+            int ncol = col+dc[i];
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !vis[nrow][ncol] && grid[nrow][ncol]==1){
+                qe.push({{nrow,ncol},time+1});
+                freshorange--;
+                vis[nrow][ncol] = 1;
+            }
+        }
+        }
+        if(freshorange>0) return -1;
+        return minutes;
+    }
+};
