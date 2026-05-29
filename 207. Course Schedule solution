@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(numCourses);
+        vector<int> indegree(numCourses,0);
+        for(auto it: prerequisites){
+            int firs = it[0],sec = it[1];
+            indegree[firs]++;
+            adj[sec].push_back(firs);
+        }
+        queue<int> qe;
+        int cnt = 0;
+        for(int i=0;i<numCourses;i++){
+            if(indegree[i]==0){
+                qe.push(i);
+            }
+        }
+        while(!qe.empty()){
+            int k = qe.front();
+            qe.pop();
+            cnt++;
+
+            for(int it: adj[k]){
+                indegree[it]--;
+                if(indegree[it]==0){
+                    qe.push(it);
+                }
+            }
+        }
+        return cnt==numCourses;
+    }
+};
