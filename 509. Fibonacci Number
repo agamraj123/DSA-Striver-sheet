@@ -1,0 +1,13 @@
+class Solution {
+public:
+int fibonacci(int n,vector<int>&ans){
+    if(n<=0) return 0;
+    if(n==1) return 1;
+    if(ans[n]!=-1) return ans[n];
+    return ans[n] = fibonacci(n-1,ans)+fibonacci(n-2,ans);
+}
+    int fib(int n) {
+        vector<int> ans(n+1,-1);
+        return fibonacci(n,ans);
+    }
+};
