@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        if(s.length()<=1) return true;
+        string temp1 = "";
+        for(char ch: s){
+            if(isalnum(ch)){
+                temp1 += tolower(ch);
+            }
+        }
+        string rev = temp1;
+        int st = 0,ed = rev.length()-1;
+        while(st<ed){
+            char ch = rev[st];
+            rev[st] = rev[ed];
+            rev[ed] = ch;
+            st++,ed--;
+        }
+        return rev==temp1;
+    }
+};
