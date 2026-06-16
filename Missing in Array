@@ -1,0 +1,15 @@
+class Solution {
+  public:
+    int missingNum(vector<int>& arr) {
+        // code here
+        int n = arr.size()+1;
+        int xorA = 0,xorB = 0;
+        for(int i=0;i<n-1;i++){
+            xorA = xorA^arr[i];
+        }
+        for(int i=1;i<=n;i++){
+            xorB = xorB^i;
+        }
+        return xorA^xorB;
+    }
+};
