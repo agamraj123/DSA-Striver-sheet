@@ -1,0 +1,56 @@
+subset-1 
+class Solution {
+public:
+void solve(int ind,vector<int>&ds,vector<vector<int>> &ans,vector<int>&nums){
+    if(ind==nums.size()){
+        ans.push_back(ds);
+        return;
+    }
+
+    // not-pick
+    solve(ind+1,ds,ans,nums);
+
+    // pick 
+    ds.push_back(nums[ind]);
+    solve(ind+1,ds,ans,nums);
+    ds.pop_back();
+}
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans;
+        vector<int> ds;
+        solve(0,ds,ans,nums);
+        return ans;
+    }
+};
+
+subset-2
+
+class Solution {
+public:
+void solve(int ind,vector<vector<int>>&ans,vector<int> &ds,vector<int>&nums,set<vector<int>> &mpp){
+    if(ind==nums.size()){
+        if(mpp.find(ds)==mpp.end()){
+            ans.push_back(ds);
+            mpp.insert(ds);
+        }
+        return;
+    }
+
+    // notpick
+    solve(ind+1,ans,ds,nums,mpp);
+
+    //pick
+    ds.push_back(nums[ind]);
+    solve(ind+1,ans,ds,nums,mpp);
+    ds.pop_back();
+
+}
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> ans;
+        vector<int> ds;
+        set<vector<int>> mpp;
+        solve(0,ans,ds,nums,mpp);
+        return ans;
+    }
+};
