@@ -1,0 +1,42 @@
+#App 1
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        double maxavg = INT_MIN;
+        int n = nums.size();
+        if(n==1 && k==1) return (double)nums[0];
+        for(int i=0;i<n;i++){
+            if(i+k>n) break;
+            double avg = 0;
+            for(int j=i;j<i+k;j++){
+                avg += nums[j];
+            }
+            avg = avg/k;
+            maxavg = max(maxavg,avg);
+        }
+        return maxavg;
+    }
+};
+#2
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        int left = 0,right = 0;
+        int maxsum = INT_MIN;
+        int sum = 0;
+        while(right<k){
+            sum += nums[right];
+            right++;
+        }
+        maxsum = sum;
+
+        while(left<=right && right<nums.size()){
+            sum += nums[right];
+            sum -= nums[left];
+            maxsum = max(maxsum,sum);
+            left++;
+            right++;
+        }
+        return (double)maxsum/k;
+    }
+};
