@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if(s.empty() || t.empty()) return "";
+        unordered_map<char,int>mpp;
+        for(char ch: t){
+            mpp[ch]++;
+        }
+        unordered_map<char,int> windowmap;
+        int left = 0,right = 0;
+        int minlen = INT_MAX,stind = 0,cnt = 0;
+        while(right<s.length()){
+            windowmap[s[right]]++;
+            if(mpp.count(s[right]) && windowmap[s[right]]==mpp[s[right]]) cnt++;
+            while(cnt==mpp.size()){
+                if(right-left+1<minlen){
+                    minlen = right-left+1;
+                    stind = left;
+                }
+                windowmap[s[left]]--;
+                if(mpp.count(s[left]) && windowmap[s[left]]<mpp[s[left]]){ 
+                    cnt--;
+                }
+                left++;
+            }
+            right++;
+        }
+        return (minlen==INT_MAX) ? "" : s.substr(stind,minlen);
+    }
+};
