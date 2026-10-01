@@ -1,0 +1,16 @@
+class Solution {
+public:
+void solve(int ind,vector<int>&nums,int t,int sum,int &cnt){
+    if(ind==nums.size()){
+        if(sum==t) cnt++;
+        return;
+    }
+    solve(ind+1,nums,t,sum+nums[ind],cnt);
+    solve(ind+1,nums,t,sum-nums[ind],cnt);
+}
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int cnt = 0;
+        solve(0,nums,target,0,cnt);
+        return cnt;
+    }
+};
